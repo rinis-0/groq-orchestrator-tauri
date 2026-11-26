@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grok Orchestrator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <h1>⚡ Orchestrator</h1>
+      <button id="newChatBtn" title="Новый чат">+ Чат</button>
+    </div>
+    <div id="chatList" class="chat-list"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-header">
+        <h2>API-ключи Groq</h2>
+        <span class="hint">ротация между аккаунтами</span>
+      </div>
+      <div id="keyList" class="key-list"></div>
+      <form id="addKeyForm" class="add-key-form">
+        <input id="keyLabel" placeholder="Название (Аккаунт 1)" required>
+        <input id="keyValue" type="password" placeholder="gsk_..." required>
+        <button type="submit">Добавить ключ</button>
+      </form>
+    </div>
+  </aside>
+
+  <main id="main">
+    <div id="emptyState" class="empty-state">
+      <div>
+        <h2>Нет открытого чата</h2>
+        <p>Создайте новый чат слева, чтобы начать.</p>
+      </div>
+    </div>
+
+    <div id="chatView" class="chat-view hidden">
+      <div id="chatHeader">
+        <input id="chatTitleInput" class="chat-title-input" placeholder="Название чата">
+        <div id="modeTabs" class="mode-tabs">
+          <button class="mode-tab" data-mode="chain">🔗 Цепочка</button>
+          <button class="mode-tab" data-mode="delegate">🧩 Делегирование</button>
+          <button class="mode-tab" data-mode="collab">🤝 Совместная работа</button>
+        </div>
+        <button id="configurePipelineBtn" class="secondary-btn">⚙ Пайплайн</button>
+      </div>
+
+      <div id="content">
+        <div id="graphPanel">
+          <div class="graph-panel-title">Визуальный граф пайплайна</div>
+          <svg id="graphSvg" viewBox="0 0 600 320" preserveAspectRatio="xMidYMid meet"></svg>
+          <div id="graphLegend" class="graph-legend">
+            <span><i class="dot idle"></i>ожидание</span>
+            <span><i class="dot active"></i>выполняется</span>
+            <span><i class="dot done"></i>готово</span>
+            <span><i class="dot error"></i>ошибка</span>
+          </div>
+        </div>
+        <div id="chatPanel">
+          <div id="messages" class="messages"></div>
+          <form id="sendForm" class="send-form">
+            <textarea id="userInput" placeholder="Введите сообщение и нажмите Enter..." rows="2"></textarea>
+            <button type="submit" id="sendBtn">Отправить</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Модалка настройки пайплайна -->
+<div id="pipelineModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 id="pipelineModalTitle">Настройка пайплайна</h2>
+      <button id="closePipelineModal" class="icon-btn">✕</button>
+    </div>
+    <p class="modal-desc" id="pipelineModeDesc"></p>
+    <div id="nodesEditor" class="nodes-editor"></div>
+    <button id="addNodeBtn" class="secondary-btn">+ Добавить модель</button>
+    <div id="synthWrap" class="synth-wrap hidden">
+      <label>Модель-синтезатор (сводит ответы воедино):</label>
+      <select id="synthSelect"></select>
+    </div>
+    <div class="modal-footer">
+      <button id="savePipelineBtn" class="primary-btn">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<datalist id="modelSuggestions">
+  <option value="llama-3.3-70b-versatile">
+  <option value="llama-3.1-8b-instant">
+  <option value="llama3-70b-8192">
+  <option value="llama3-8b-8192">
+  <option value="mixtral-8x7b-32768">
+  <option value="gemma2-9b-it">
+</datalist>
+
+<script src="app.js"></script>
+</body>
+</html>
